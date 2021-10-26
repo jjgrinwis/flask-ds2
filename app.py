@@ -1,4 +1,4 @@
-import re
+import logging
 from flask import Flask, request
 from flask_basicauth import BasicAuth
 
@@ -10,10 +10,17 @@ app.config['BASIC_AUTH_PASSWORD'] = 'doe'
 
 basic_auth = BasicAuth(app)
 
+# if using gunicorn, we need to link it to the
+if __name__ != '__main__':
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel("debug")
+
 
 @app.route('/')
 def home():
     return("hello Flask world!")
+
 
 # by default only GET so let's make entry point for POST for our logs
 # DS logs can be TXT or JSON format.
