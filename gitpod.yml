@@ -1,0 +1,15 @@
+ports:
+  - port: 5000
+    onOpen: open-preview
+
+tasks:
+  - before: |
+      export FLASK_ENV=development
+    init: |
+      pip install flask flask-basicAuth
+    command: |
+      flask run
+
+vscode:
+  extensions:
+    - ms-python.python
